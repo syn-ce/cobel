@@ -136,7 +136,26 @@ void write_png_file(char *filename) {
   png_destroy_write_struct(&png, &info);
 }
 
-void process_png_file() {
+// Handle the last two columns and rows which be default are not affected / processed by sobel edge detection.
+// For now, only blacks out these last two.
+void sobel_edge_last_two() {
+    for (int y = height - 2; y < height; y++) {
+        png_bytep row = row_pointers[y];
+        for (int x = 0; x < width; x++) {
+            png_bytep px = &(row[x * 4]);
+            px[0] = px[1] = px[2] = 0;
+        }
+    }
+    for (int y = 0; y < height; y++) {
+        png_bytep row = row_pointers[y];
+        for (int x = width - 2; x < width; x++) {
+            png_bytep px = &(row[x * 4]);
+            px[0] = px[1] = px[2] = 0;
+        }
+    }
+}
+
+void apply_sobel_edge_detection() {
   double S_Y[3][3] = {{-1,0,1}, {-2,0,2}, {-1,0,1}};
   double S_X[3][3] = {{-1,-2,-1}, {0,0,0}, {1,2,1}};
 
@@ -171,6 +190,9 @@ void process_png_file() {
         px00[0] = px00[1] = px00[2] = G;
     }
   }
+
+  // Process last two columns and rows as well
+  sobel_edge_last_two();
 }
 
 int main(int argc, char *argv[]) {
@@ -182,7 +204,7 @@ int main(int argc, char *argv[]) {
 
     char *filename = argv[1];
     read_png_file(filename);
-    process_png_file();
+    apply_sobel_edge_detection();
     write_png_file("output.png");
 
     return 0;
