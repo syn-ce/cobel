@@ -167,13 +167,13 @@ void apply_sobel_edge_detection(int black_white) {
     for(int x = 0; x < width - 2; x++) {
         png_bytep px00 = &(row[x * 4]);
         png_bytep px01 = &(row1[x * 4]);
+        png_bytep px02 = &(row2[x * 4]);
         png_bytep px10 = &(row[(x+1) * 4]);
+        png_bytep px20 = &(row[(x+2) * 4]);
         png_bytep px11 = &(row1[(x+1) * 4]);
-        png_bytep px02 = &(row2[(x+1) * 4]);
-        png_bytep px12 = &(row2[(x+2) * 4]);
-        png_bytep px20 = &(row[x * 4]);
-        png_bytep px21 = &(row1[(x+1) * 4]);
         png_bytep px22 = &(row2[(x+2) * 4]);
+        png_bytep px12 = &(row2[(x+1) * 4]);
+        png_bytep px21 = &(row1[(x+2) * 4]);
 
         double G_xr =   (S_X[0][0] * px00[0]) + (S_X[0][1] * px10[0]) + (S_X[0][2] * px20[0]) +
 				        (S_X[1][0] * px01[0]) + (S_X[1][1] * px11[0]) + (S_X[1][2] * px21[0]) +
