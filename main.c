@@ -155,7 +155,7 @@ void sobel_edge_last_two() {
     }
 }
 
-void apply_sobel_edge_detection() {
+void apply_sobel_edge_detection(int black_white) {
   double S_Y[3][3] = {{-1,0,1}, {-2,0,2}, {-1,0,1}};
   double S_X[3][3] = {{-1,-2,-1}, {0,0,0}, {1,2,1}};
 
@@ -175,19 +175,43 @@ void apply_sobel_edge_detection() {
         png_bytep px21 = &(row1[(x+1) * 4]);
         png_bytep px22 = &(row2[(x+2) * 4]);
 
-        double G_x =  (S_X[0][0] * px00[0]) + (S_X[0][1] * px10[0]) + (S_X[0][2] * px20[0]) +
-				    (S_X[1][0] * px01[0]) + (S_X[1][1] * px11[0]) + (S_X[1][2] * px21[0]) +
-				    (S_X[2][0] * px02[0]) + (S_X[2][1] * px12[0]) + (S_X[2][2] * px22[0]);
+        double G_xr =   (S_X[0][0] * px00[0]) + (S_X[0][1] * px10[0]) + (S_X[0][2] * px20[0]) +
+				        (S_X[1][0] * px01[0]) + (S_X[1][1] * px11[0]) + (S_X[1][2] * px21[0]) +
+				        (S_X[2][0] * px02[0]) + (S_X[2][1] * px12[0]) + (S_X[2][2] * px22[0]);
 
-        double G_y =  (S_Y[0][0] * px00[0]) + (S_Y[0][1] * px10[0]) + (S_Y[0][2] * px20[0]) +
-				    (S_Y[1][0] * px01[0]) + (S_Y[1][1] * px11[0]) + (S_Y[1][2] * px21[0]) +
-				    (S_Y[2][0] * px02[0]) + (S_Y[2][1] * px12[0]) + (S_Y[2][2] * px22[0]);
+        double G_yr =   (S_Y[0][0] * px00[0]) + (S_Y[0][1] * px10[0]) + (S_Y[0][2] * px20[0]) +
+				        (S_Y[1][0] * px01[0]) + (S_Y[1][1] * px11[0]) + (S_Y[1][2] * px21[0]) +
+				        (S_Y[2][0] * px02[0]) + (S_Y[2][1] * px12[0]) + (S_Y[2][2] * px22[0]);
+
+        double G_xg =   (S_X[0][0] * px00[1]) + (S_X[0][1] * px10[1]) + (S_X[0][2] * px20[1]) +
+				        (S_X[1][0] * px01[1]) + (S_X[1][1] * px11[1]) + (S_X[1][2] * px21[1]) +
+				        (S_X[2][0] * px02[1]) + (S_X[2][1] * px12[1]) + (S_X[2][2] * px22[1]);
+
+        double G_yg =   (S_Y[0][0] * px00[1]) + (S_Y[0][1] * px10[1]) + (S_Y[0][2] * px20[1]) +
+				        (S_Y[1][0] * px01[1]) + (S_Y[1][1] * px11[1]) + (S_Y[1][2] * px21[1]) +
+				        (S_Y[2][0] * px02[1]) + (S_Y[2][1] * px12[1]) + (S_Y[2][2] * px22[1]);
+
+        double G_xb =   (S_X[0][0] * px00[2]) + (S_X[0][1] * px10[2]) + (S_X[0][2] * px20[2]) +
+				        (S_X[1][0] * px01[2]) + (S_X[1][1] * px11[2]) + (S_X[1][2] * px21[2]) +
+				        (S_X[2][0] * px02[2]) + (S_X[2][1] * px12[2]) + (S_X[2][2] * px22[2]);
+
+        double G_yb =   (S_Y[0][0] * px00[2]) + (S_Y[0][1] * px10[2]) + (S_Y[0][2] * px20[2]) +
+				        (S_Y[1][0] * px01[2]) + (S_Y[1][1] * px11[2]) + (S_Y[1][2] * px21[2]) +
+				        (S_Y[2][0] * px02[2]) + (S_Y[2][1] * px12[2]) + (S_Y[2][2] * px22[2]);
 
 
-        int G = (int) sqrt(G_x * G_x + G_y * G_y);
+        int Gr = (int) sqrt(G_xr * G_xr + G_yr * G_yr);
+        int Gg = (int) sqrt(G_xg * G_xg + G_yg * G_yg);
+        int Gb = (int) sqrt(G_xb * G_xb + G_yb * G_yb);
+
         // Do something awesome for each pixel here...
         //printf("%4d, %4d =[0]GBA(%3d, %3d, %3d, %3d)\n", x, y, px[0], px[1], px[2], px[3]);
-        px00[0] = px00[1] = px00[2] = G;
+        if (black_white) px00[0] = px00[1] = px00[2] = (Gr + Gg + Gb) / 3;
+        else {
+            px00[0] = Gr;
+            px00[1] = Gg;
+            px00[2] = Gb;
+        }
     }
   }
 
@@ -196,16 +220,26 @@ void apply_sobel_edge_detection() {
 }
 
 int main(int argc, char *argv[]) {
-  //if(argc != 3) abort();
-    if (argc != 2) {
+    if (argc < 2) {
         printf("Specify the filename of the image to read.");
-        abort();
+        exit(1);
     }
 
     char *filename = argv[1];
+
+    int black_white = 1;
+    if (argc > 2) black_white = atoi(argv[2]);
+
+    char *out = "output.png";
+    if (argc > 3) out = argv[3];
+
+    int nr_iterations = 1;
+    if (argc > 4) nr_iterations = atoi(argv[4]);
+
     read_png_file(filename);
-    apply_sobel_edge_detection();
-    write_png_file("output.png");
+    for (int i = 0; i < nr_iterations; i++)
+        apply_sobel_edge_detection(black_white);
+    write_png_file(out);
 
     return 0;
 }
