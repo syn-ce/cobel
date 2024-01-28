@@ -16,30 +16,30 @@ where
 
 ## Examples
 
-| Original                                                                                                                                                                                                      |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| <p align="center"> <img src="/imgs/JuliaSet_112_234_94_320_1.1544476768316247_1665_0.20911330049261068_0.1921182266009851_-1.018685076478028_0.7278396510857144_2.403432664568266_LC_0.jpg" width="60%"> </p> |
+| Original                                                                                                                                                                                                                                                                                               |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| <p align="center"> <img alt="green Julia Set with c-value of around x=1.145, y=0.209 with low exponent" src="/imgs/Original/JuliaSet_112_234_94_320_1.1544476768316247_1665_0.20911330049261068_0.1921182266009851_-1.018685076478028_0.7278396510857144_2.403432664568266_LC_0.jpg" width="60%"> </p> |
 
-| 1 Iteration                    | 2 Iterations                   |
-| ------------------------------ | ------------------------------ |
-| ![](/imgs/JuliaSet_Sobel1.jpg) | ![](/imgs/JuliaSet_Sobel2.jpg) |
+| 1 Iteration                                                                                              | 2 Iterations                                                                                              |
+| -------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| ![sobel edge detection applied once to the image of the Julia Set](/imgs/BlackWhite/JuliaSet_Sobel1.jpg) | ![sobel edge detection applied twice to the image of the Julia Set](/imgs/BlackWhite/JuliaSet_Sobel2.jpg) |
 
-| 3 Iterations                   | 4 Iterations                   |
-| ------------------------------ | ------------------------------ |
-| ![](/imgs/JuliaSet_Sobel3.jpg) | ![](/imgs/JuliaSet_Sobel4.jpg) |
+| 3 Iterations                                                                                                    | 4 Iterations                                                                                                   |
+| --------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| ![sobel edge detection applied three times to the image of the Julia Set](/imgs/BlackWhite/JuliaSet_Sobel3.jpg) | ![sobel edge detection applied four times to the image of the Julia Set](/imgs/BlackWhite/JuliaSet_Sobel4.jpg) |
 
 ### With color
 
-| 1 Iteration                         | 2 Iterations                        |
-| ----------------------------------- | ----------------------------------- |
-| ![](/imgs/JuliaSet_Sobel1Color.jpg) | ![](/imgs/JuliaSet_Sobel2Color.jpg) |
+| 1 Iteration                                                                                                         | 2 Iterations                                                                                                         |
+| ------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| ![sobel edge detection with color applied once to the image of the Julia Set](/imgs/Color/JuliaSet_Sobel1Color.jpg) | ![sobel edge detection with color applied twice to the image of the Julia Set](/imgs/Color/JuliaSet_Sobel2Color.jpg) |
 
-| 3 Iterations                        | 4 Iterations                        |
-| ----------------------------------- | ----------------------------------- |
-| ![](/imgs/JuliaSet_Sobel3Color.jpg) | ![](/imgs/JuliaSet_Sobel4Color.jpg) |
+| 3 Iterations                                                                                                               | 4 Iterations                                                                                                              |
+| -------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| ![sobel edge detection with color applied three times to the image of the Julia Set](/imgs/Color/JuliaSet_Sobel3Color.jpg) | ![sobel edge detection with color applied four times to the image of the Julia Set](/imgs/Color/JuliaSet_Sobel4Color.jpg) |
 
 ## Changing the Operator
 
-| [-2 0 -2] as first row of S_X                      | [-2 1 -2] as first row of S_X                      |
-| -------------------------------------------------- | -------------------------------------------------- |
-| ![](/imgs/JuliaSet_SobelOtherOperator_-2_0_-2.jpg) | ![](/imgs/JuliaSet_SobelOtherOperator_-2_1_-2.jpg) |
+| [-2 0 -2] as first row of S_X                                                                                                                                                          | [-2 1 -2] as first row of S_X                                                                                                                                                     |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ![sobel edge detection with with first row of S_X equal to [-2, 0, -2] applied three times to the image of the Julia Set](/imgs/OtherOperator/JuliaSet_SobelOtherOperator_-2_0_-2.jpg) | ![sobel edge detection with first row of S_X equal to [-2, 0, -2] applied three times to the image of the Julia Set](/imgs/OtherOperator/JuliaSet_SobelOtherOperator_-2_1_-2.jpg) |
